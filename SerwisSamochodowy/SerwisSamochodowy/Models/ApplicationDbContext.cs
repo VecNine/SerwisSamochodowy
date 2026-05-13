@@ -3,7 +3,7 @@ using System.Text;
 using Microsoft.EntityFrameworkCore;
 using SerwisSamochodowy.Models;
 
-namespace lab09.Models;
+namespace SerwisSamochodowy.Models;
 
 public class ApplicationDbContext : DbContext
 {

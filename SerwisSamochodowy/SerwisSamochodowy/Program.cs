@@ -1,5 +1,5 @@
-using lab09.Models;
 using Microsoft.EntityFrameworkCore;
+using SerwisSamochodowy.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
