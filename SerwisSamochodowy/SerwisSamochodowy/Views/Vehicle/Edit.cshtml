@@ -1,0 +1,51 @@
+@model SerwisSamochodowy.Models.Vehicle
+@{ ViewData["Title"] = "Edytuj Pojazd"; }
+
+<div class="container mt-4">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white"><h3 class="mb-0">Edytuj: @Model.Model</h3></div>
+        <div class="card-body">
+            <form asp-action="Edit" method="post">
+                <input type="hidden" asp-for="IdVehicle" />
+                
+                <h5 class="mb-3 text-muted">Dane pojazdu</h5>
+                <div class="row">
+                    <div class="col-md-8 mb-3">
+                        <label asp-for="Model" class="form-label fw-bold">Marka i Model</label>
+                        <input asp-for="Model" class="form-control" required />
+                        <span asp-validation-for="Model" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <label asp-for="Year" class="form-label fw-bold">Rok Produkcji</label>
+                        <input asp-for="Year" type="number" class="form-control" min="1900" max="2030" required />
+                        <span asp-validation-for="Year" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <h5 class="mb-3 text-muted border-top pt-3">Dane właściciela</h5>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label asp-for="OwnerName" class="form-label fw-bold">Imię</label>
+                        <input asp-for="OwnerName" class="form-control" required />
+                        <span asp-validation-for="OwnerName" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label asp-for="OwnerSurname" class="form-label fw-bold">Nazwisko</label>
+                        <input asp-for="OwnerSurname" class="form-control" required />
+                        <span asp-validation-for="OwnerSurname" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <label asp-for="OwnerPhone" class="form-label fw-bold">Telefon kontaktowy</label>
+                        <input asp-for="OwnerPhone" type="number" class="form-control" required />
+                        <span asp-validation-for="OwnerPhone" class="text-danger"></span>
+                    </div>
+                </div>
+                
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary px-4">Zapisz Zmiany</button>
+                    <a asp-action="Index" class="btn btn-outline-secondary">Anuluj</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

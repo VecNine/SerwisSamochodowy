@@ -12,6 +12,12 @@ public class Vehicle
 
     [Required]
     public int Year { get; set; }
+    [Required]
+    public string OwnerName { get; set; }
+    [Required]
+    public string OwnerSurname { get; set; }
+    [Required]
+    public int OwnerPhone { get; set; }
     
     public List<Repairment> Repairments { get; set; } = new();
 }

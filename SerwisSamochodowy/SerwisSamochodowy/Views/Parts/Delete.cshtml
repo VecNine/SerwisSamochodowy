@@ -1,0 +1,32 @@
+@model SerwisSamochodowy.Models.Parts
+
+@{
+    ViewData["Title"] = "Usuń Część";
+}
+
+<div class="container mt-4">
+    <div class="alert alert-danger shadow">
+        <h3>Czy na pewno chcesz usunąć część: <strong>@Model.Name</strong>?</h3>
+        <p class="mb-0">Tej operacji nie można cofnąć. Rekord zostanie trwale usunięty z bazy danych.</p>
+    </div>
+
+    <div class="card shadow-sm mt-3">
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3">ID Części:</dt>
+                <dd class="col-sm-9">@Model.IdPart</dd>
+
+                <dt class="col-sm-3">Nazwa:</dt>
+                <dd class="col-sm-9">@Model.Name</dd>
+
+                <dt class="col-sm-3">Koszt:</dt>
+                <dd class="col-sm-9">@Model.Cost.ToString("C")</dd>
+            </dl>
+
+            <form asp-action="DeleteConfirmed" asp-route-id="@Model.IdPart" method="post">
+                <button type="submit" class="btn btn-danger px-4">Tak, usuń część</button>
+                <a asp-action="Index" class="btn btn-outline-secondary ms-2">Anuluj</a>
+            </form>
+        </div>
+    </div>
+</div>

@@ -15,6 +15,11 @@ public class Mechanic
 
     [Required]
     public decimal Salary { get; set; }
+
+    [Required]
+    [Display(Name = "Data rozpoczęcia pracy")]
+    [DataType(DataType.Date)]
+    public DateTime EmploymentStartDate { get; set; }
     
     public List<Repairment> Repairments { get; set; } = new();
 }

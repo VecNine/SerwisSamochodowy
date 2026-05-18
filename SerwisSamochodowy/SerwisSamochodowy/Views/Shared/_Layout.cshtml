@@ -1,10 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>@ViewData["Title"] - SerwisSamochodowy</title>
-    <script type="importmap"></script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
     <link rel="stylesheet" href="~/SerwisSamochodowy.styles.css" asp-append-version="true"/>
@@ -20,17 +20,48 @@
             </button>
             <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                    </li>
+                    @if (Context.Session.GetString("User") != null)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link text-primary fw-bold" asp-controller="Management" asp-action="Index">Zarządzanie Bazą</a>
+                        </li>
+
+                        @* Blok widoczny wyłącznie dla administratorów *@
+                        @if (Context.Session.GetString("IsAdmin") == "True")
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Statistics" asp-action="Index">Statystyki</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Users" asp-action="List">Użytkownicy (Admin)</a>
+                            </li>
+                        }
+                    }
+                </ul>
+
+                @* Panel logowania *@
+                <ul class="navbar-nav">
+                    @if (Context.Session.GetString("User") != null)
+                    {
+                        <li class="nav-item">
+                            <span class="nav-link text-muted">Zalogowany: <strong>@Context.Session.GetString("User")</strong></span>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link btn btn-outline-danger btn-sm ms-2" asp-controller="Users" asp-action="Logout">Wyloguj</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link btn btn-outline-primary btn-sm" asp-controller="Users" asp-action="Login">Zaloguj się</a>
+                        </li>
+                    }
                 </ul>
             </div>
         </div>
     </nav>
 </header>
+
 <div class="container">
     <main role="main" class="pb-3">
         @RenderBody()
@@ -38,10 +69,11 @@
 </div>
 
 <footer class="border-top footer text-muted">
-    <div class="container">
-        &copy; 2026 - SerwisSamochodowy - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <div class="container text-center">
+        &copy; 2026 - SerwisSamochodowy
     </div>
 </footer>
+
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>

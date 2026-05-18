@@ -1,0 +1,14 @@
+@model SerwisSamochodowy.Models.Users
+@{
+    ViewData["Title"] = "Usuń Użytkownika";
+}
+
+<div class="alert alert-danger shadow-sm">
+    <h3>Czy na pewno chcesz usunąć użytkownika <strong>@Model.Username</strong>?</h3>
+    <p>Tej operacji nie można cofnąć.</p>
+    
+    <form asp-action="DeleteConfirmed" asp-route-id="@Model.IdUser" method="post">
+        <button type="submit" class="btn btn-danger">Tak, Usuń</button>
+        <a asp-action="List" class="btn btn-secondary">Anuluj</a>
+    </form>
+</div>

@@ -1,0 +1,90 @@
+@model SerwisSamochodowy.Models.StatisticsViewModel
+@{ ViewData["Title"] = "Statystyki"; }
+
+<div class="container mt-4">
+    <h2 class="mb-4">Analiza Wyników Serwisu</h2>
+
+    <div class="card mb-4 bg-light shadow-sm">
+        <div class="card-body">
+            <form method="get" class="row g-3 align-items-end">
+                <div class="col-md-4">
+                    <label class="fw-bold">Od:</label>
+                    <input type="month" name="startDate" class="form-control" value="@Model.StartDate.ToString("yyyy-MM")" />
+                </div>
+                <div class="col-md-4">
+                    <label class="fw-bold">Do:</label>
+                    <input type="month" name="endDate" class="form-control" value="@Model.EndDate.ToString("yyyy-MM")" />
+                </div>
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-primary w-100">Przelicz</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-7">
+            <div class="card h-100 shadow-sm border-dark">
+                <div class="card-header bg-dark text-white fw-bold">Bilans Finansowy</div>
+                <div class="card-body text-center">
+                    <div class="row mb-3">
+                        <div class="col-6 border-end text-success">
+                            <small class="text-muted d-block">Przychód (Robocizna)</small>
+                            <span class="h4">@Model.TotalServiceRevenue.ToString("C")</span>
+                        </div>
+                        <div class="col-6 text-danger">
+                            <small class="text-muted d-block">Koszty (Pensje)</small>
+                            <span class="h4">-@Model.TotalMechanicSalaries.ToString("C")</span>
+                        </div>
+                    </div>
+                    <div class="alert @(Model.FinalProfit >= 0 ? "alert-success" : "alert-danger") h3 mb-0">
+                        Zysk Netto: @Model.FinalProfit.ToString("C")
+                    </div>
+                    <div class="mt-3 text-dark small">Łączny obrót częściami (płaci klient): <strong>@Model.TotalPartsValue.ToString("C")</strong></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="card h-100 shadow-sm border-primary">
+                <div class="card-header bg-primary text-white fw-bold">Top 10 Klientów</div>
+                <div class="card-body p-0">
+                    <table class="table table-sm mb-0">
+                        <thead><tr class="small"><th>Pojazd / Właściciel</th><th class="text-center">Wizyt</th></tr></thead>
+                        <tbody>
+                            @foreach(var v in Model.TopVehicles) {
+                                <tr>
+                                    <td><small>@v.VehicleModel</small><br/><strong>@v.OwnerFullName</strong></td>
+                                    <td class="text-center align-middle"><span class="badge bg-info text-dark">@v.RepairCount</span></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-secondary text-white fw-bold">Zestawienie Mechaników</div>
+        <div class="card-body p-0">
+            <table class="table table-hover mb-0">
+                <thead class="table-light">
+                    <tr><th>Mechanik</th><th>M-ce</th><th>Napraw</th><th>Przychód</th><th>Koszt</th><th>Bilans</th></tr>
+                </thead>
+                <tbody>
+                    @foreach(var m in Model.MechanicStats) {
+                        var b = m.RevenueGenerated - m.SalaryCosts;
+                        <tr>
+                            <td><strong>@m.FullName</strong></td>
+                            <td>@m.MonthsWorkedInRange</td>
+                            <td><span class="badge bg-primary">@m.RepairCount</span></td>
+                            <td class="text-success">@m.RevenueGenerated.ToString("C")</td>
+                            <td class="text-danger">@m.SalaryCosts.ToString("C")</td>
+                            <td class="fw-bold @(b >= 0 ? "text-primary" : "text-danger")">@b.ToString("C")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

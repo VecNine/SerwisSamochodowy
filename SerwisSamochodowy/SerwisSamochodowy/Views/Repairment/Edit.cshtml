@@ -1,0 +1,100 @@
+@model SerwisSamochodowy.Models.Repairment
+@{ ViewData["Title"] = "Edytuj Naprawę"; }
+
+<div class="container mt-4">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white"><h3 class="mb-0">Edytuj Zlecenie #@Model.IdRepairment</h3></div>
+        <div class="card-body">
+            <form asp-action="Edit" method="post">
+                <input type="hidden" asp-for="IdRepairment" />
+                
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="fw-bold">Pojazd</label>
+                        <select asp-for="IdVehicle" class="form-select" asp-items="ViewBag.Vehicles" required></select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="fw-bold">Mechanik</label>
+                        <select asp-for="IdMechanic" class="form-select" asp-items="ViewBag.Mechanics" required></select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="Date" class="fw-bold">Data Serwisu</label>
+                        <input asp-for="Date" type="datetime-local" class="form-control" required />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="ServicePrice" class="fw-bold">Koszt Usługi (Robocizna w PLN)</label>
+                        <input asp-for="ServicePrice" type="number" step="0.01" class="form-control" required />
+                    </div>
+                </div>
+
+                <hr />
+                <h5 class="mb-3">Wykorzystane części</h5>
+                <div id="parts-container">
+                    @if (Model.RepairmentParts != null)
+                    {
+                        foreach (var rp in Model.RepairmentParts)
+                        {
+                            <div class="row mb-2 part-row">
+                                <div class="col-md-7">
+                                    <select name="selectedParts" class="form-select">
+                                        <option value="0">-- Wybierz część --</option>
+                                        @foreach(var p in ViewBag.AllParts) {
+                                            if (p.IdPart == rp.IdPart) {
+                                                <option value="@p.IdPart" selected>@p.Name (@p.Cost zł)</option>
+                                            } else {
+                                                <option value="@p.IdPart">@p.Name (@p.Cost zł)</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <input name="quantities" type="number" class="form-control" value="@rp.Quantity" min="1" />
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="button" class="btn btn-danger" onclick="this.parentElement.parentElement.remove()">Usuń</button>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+                
+                <button type="button" class="btn btn-outline-primary btn-sm mb-3 mt-2" onclick="addPartRow()">+ Dodaj kolejną część</button>
+
+                <div class="d-flex gap-2 border-top pt-3 mt-4">
+                    <button type="submit" class="btn btn-primary px-4">Zapisz Zmiany</button>
+                    <a asp-action="Index" class="btn btn-outline-secondary">Anuluj</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function addPartRow() {
+            const container = document.getElementById('parts-container');
+            const row = document.createElement('div');
+            row.className = 'row mb-2 part-row';
+            row.innerHTML = `
+                <div class="col-md-7">
+                    <select name="selectedParts" class="form-select">
+                        <option value="0">-- Wybierz część --</option>
+                        @foreach(var p in ViewBag.AllParts) {
+                            <option value="@p.IdPart">@p.Name (@p.Cost zł)</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <input name="quantities" type="number" class="form-control" placeholder="Ilość" value="1" min="1" />
+                </div>
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-danger" onclick="this.parentElement.parentElement.remove()">Usuń</button>
+                </div>
+            `;
+            container.appendChild(row);
+        }
+    </script>
+}

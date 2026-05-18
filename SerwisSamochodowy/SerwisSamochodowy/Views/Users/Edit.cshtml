@@ -1,0 +1,35 @@
+@model SerwisSamochodowy.Models.Users
+@{
+    ViewData["Title"] = "Edytuj Użytkownika";
+}
+
+<h2>Edycja: @Model.Username</h2>
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Edit" method="post">
+            <input type="hidden" name="id" value="@Model.IdUser" />
+            
+            <div class="form-group mb-3">
+                <label class="control-label">Login</label>
+                <input name="username" value="@Model.Username" class="form-control" required />
+            </div>
+            
+            <div class="form-group mb-3">
+                <label class="control-label">Nowe hasło (zostaw puste, by nie zmieniać)</label>
+                <input name="password" type="password" class="form-control" />
+            </div>
+
+            <div class="form-check mb-3">
+                <input name="isAdmin" type="checkbox" value="true" class="form-check-input" @(Model.IsAdmin ? "checked" : "") />
+                <label class="form-check-label">Administrator</label>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Zastosuj zmiany</button>
+                <a asp-action="List" class="btn btn-secondary">Anuluj</a>
+            </div>
+        </form>
+    </div>
+</div>

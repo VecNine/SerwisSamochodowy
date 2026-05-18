@@ -1,0 +1,25 @@
+@model SerwisSamochodowy.Models.Mechanic
+@{ ViewData["Title"] = "Usuń Mechanika"; }
+
+<div class="container mt-4">
+    <div class="alert alert-danger shadow">
+        <h3>Czy na pewno chcesz usunąć mechanika <strong>@Model.Name @Model.Surname</strong>?</h3>
+        <p class="mb-0">Tej operacji nie można cofnąć.</p>
+    </div>
+    
+    <div class="card shadow-sm mt-3">
+        <div class="card-body">
+            <dl class="row mb-4">
+                <dt class="col-sm-3">ID:</dt> <dd class="col-sm-9">@Model.IdMechanic</dd>
+                <dt class="col-sm-3">Imię i Nazwisko:</dt> <dd class="col-sm-9">@Model.Name @Model.Surname</dd>
+                <dt class="col-sm-3">Pensja:</dt> <dd class="col-sm-9">@Model.Salary.ToString("C")</dd>
+                <dt class="col-sm-3">Zatrudniony od:</dt> <dd class="col-sm-9">@Model.EmploymentStartDate.ToString("MMMM yyyy")</dd>
+            </dl>
+
+            <form asp-action="DeleteConfirmed" asp-route-id="@Model.IdMechanic" method="post">
+                <button type="submit" class="btn btn-danger px-4">Tak, usuń mechanika</button>
+                <a asp-action="Index" class="btn btn-outline-secondary ms-2">Anuluj</a>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,48 @@
+@model SerwisSamochodowy.Models.Repairment
+@{ ViewData["Title"] = "Usuń Naprawę"; }
+
+<div class="container mt-4">
+    <div class="alert alert-danger shadow">
+        <h3>Czy na pewno chcesz usunąć zlecenie naprawy <strong>#@Model.IdRepairment</strong>?</h3>
+        <p class="mb-0">Usunięcie wpisu będzie trwałe i usunie również powiązania ze zużytymi częściami w bazie.</p>
+    </div>
+    
+    <div class="card shadow-sm mt-3">
+        <div class="card-body">
+            <h5 class="border-bottom pb-2 mb-3">Szczegóły zlecenia</h5>
+            <dl class="row mb-4">
+                <dt class="col-sm-3">Data:</dt>
+                <dd class="col-sm-9">@Model.Date.ToString("dd.MM.yyyy HH:mm")</dd>
+
+                <dt class="col-sm-3">Pojazd:</dt>
+                <dd class="col-sm-9 fw-bold">@(Model.Vehicle != null ? Model.Vehicle.Model : "Nieznany")</dd>
+
+                <dt class="col-sm-3">Mechanik:</dt>
+                <dd class="col-sm-9">@(Model.Mechanic != null ? Model.Mechanic.Name + " " + Model.Mechanic.Surname : "Nieznany")</dd>
+
+                <dt class="col-sm-3">Robocizna:</dt>
+                <dd class="col-sm-9 text-success fw-bold">@Model.ServicePrice.ToString("C")</dd>
+            </dl>
+
+            <h5 class="border-bottom pb-2 mb-3">Zużyte części</h5>
+            @if (Model.RepairmentParts != null && Model.RepairmentParts.Any())
+            {
+                <ul>
+                    @foreach(var rp in Model.RepairmentParts)
+                    {
+                        <li>@rp.Part.Name (x @rp.Quantity) - @((rp.Part.Cost * rp.Quantity).ToString("C"))</li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <p class="text-muted">Brak powiązanych części.</p>
+            }
+
+            <form asp-action="DeleteConfirmed" asp-route-id="@Model.IdRepairment" method="post" class="mt-4">
+                <button type="submit" class="btn btn-danger px-4">Tak, usuń zlecenie</button>
+                <a asp-action="Index" class="btn btn-outline-secondary ms-2">Anuluj</a>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,39 @@
+@model SerwisSamochodowy.Models.Vehicle
+@{ ViewData["Title"] = "Usuń Pojazd"; }
+
+<div class="container mt-4">
+    <div class="alert alert-danger shadow">
+        <h3>Czy na pewno chcesz usunąć pojazd: <strong>@Model.Model</strong>?</h3>
+        <p class="mb-0">Usunięcie pojazdu może wpłynąć na historię napraw powiązaną z tym ID w bazie danych.</p>
+    </div>
+    
+    <div class="card shadow-sm mt-3">
+        <div class="card-body">
+            <h5 class="border-bottom pb-2 mb-3">Szczegóły pojazdu</h5>
+            <dl class="row mb-4">
+                <dt class="col-sm-3">ID Pojazdu:</dt>
+                <dd class="col-sm-9">@Model.IdVehicle</dd>
+
+                <dt class="col-sm-3">Model:</dt>
+                <dd class="col-sm-9 fw-bold">@Model.Model</dd>
+
+                <dt class="col-sm-3">Rok Produkcji:</dt>
+                <dd class="col-sm-9">@Model.Year</dd>
+            </dl>
+
+            <h5 class="border-bottom pb-2 mb-3">Właściciel</h5>
+            <dl class="row mb-4">
+                <dt class="col-sm-3">Imię i Nazwisko:</dt>
+                <dd class="col-sm-9">@Model.OwnerName @Model.OwnerSurname</dd>
+
+                <dt class="col-sm-3">Telefon:</dt>
+                <dd class="col-sm-9">@Model.OwnerPhone</dd>
+            </dl>
+
+            <form asp-action="DeleteConfirmed" asp-route-id="@Model.IdVehicle" method="post">
+                <button type="submit" class="btn btn-danger px-4">Tak, usuń pojazd</button>
+                <a asp-action="Index" class="btn btn-outline-secondary ms-2">Anuluj</a>
+            </form>
+        </div>
+    </div>
+</div>

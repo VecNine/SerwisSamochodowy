@@ -1,0 +1,46 @@
+@model IEnumerable<SerwisSamochodowy.Models.Vehicle>
+@{ ViewData["Title"] = "Pojazdy"; }
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Baza Pojazdów</h2>
+        <a asp-action="Create" class="btn btn-success fw-bold">Dodaj nowy pojazd</a>
+    </div>
+
+    <div class="card shadow-sm">
+        <table class="table table-striped table-hover mb-0">
+            <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Pojazd (Model)</th>
+                <th>Rok</th>
+                <th>Właściciel</th>
+                <th>Telefon</th>
+                <th class="text-end">Akcje</th>
+            </tr>
+            </thead>
+            <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var item in Model) {
+                    <tr>
+                        <td>@item.IdVehicle</td>
+                        <td class="fw-bold">@item.Model</td>
+                        <td>@item.Year</td>
+                        <td>@item.OwnerName @item.OwnerSurname</td>
+                        <td>@item.OwnerPhone</td>
+                        <td class="text-end">
+                            <a asp-action="Edit" asp-route-id="@item.IdVehicle" class="btn btn-sm btn-primary">Edytuj</a>
+                            <a asp-action="Delete" asp-route-id="@item.IdVehicle" class="btn btn-sm btn-outline-danger">Usuń</a>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr><td colspan="6" class="text-center py-3 text-muted">Brak pojazdów w bazie.</td></tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>

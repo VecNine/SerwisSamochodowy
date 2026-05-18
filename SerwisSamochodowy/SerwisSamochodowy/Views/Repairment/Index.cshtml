@@ -1,0 +1,61 @@
+@model IEnumerable<SerwisSamochodowy.Models.Repairment>
+@{ ViewData["Title"] = "Zlecenia Napraw"; }
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Rejestr Napraw</h2>
+        <a asp-action="Create" class="btn btn-success fw-bold">Dodaj nowe zlecenie</a>
+    </div>
+
+    <div class="card shadow-sm">
+        <table class="table table-striped table-hover mb-0">
+            <thead class="table-dark">
+                <tr>
+                    <th>Data</th>
+                    <th>Pojazd</th>
+                    <th>Mechanik</th>
+                    <th>Części</th>
+                    <th>Suma (Części + Usługa)</th>
+                    <th class="text-end">Akcje</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    foreach (var item in Model) {
+                        decimal partsTotal = item.RepairmentParts?.Sum(rp => rp.Part.Cost * rp.Quantity) ?? 0;
+                        
+                        <tr>
+                            <td>@item.Date.ToString("dd.MM.yyyy HH:mm")</td>
+                            <td>@(item.Vehicle?.Model ?? "Brak pojazdu")</td>
+                            <td>@(item.Mechanic != null ? item.Mechanic.Name + " " + item.Mechanic.Surname : "Brak mechanika")</td>
+                            <td>
+                                @if (item.RepairmentParts != null && item.RepairmentParts.Any())
+                                {
+                                    <ul class="small mb-0 px-3">
+                                        @foreach(var rp in item.RepairmentParts) {
+                                            <li>@rp.Part.Name (x @(rp.Quantity))</li>
+                                        }
+                                    </ul>
+                                }
+                                else
+                                {
+                                    <span class="text-muted small">Brak części</span>
+                                }
+                            </td>
+                            <td class="fw-bold text-success">@((partsTotal + item.ServicePrice).ToString("C"))</td>
+                            <td class="text-end">
+                                <a asp-action="Edit" asp-route-id="@item.IdRepairment" class="btn btn-sm btn-primary">Edytuj</a>
+                                <a asp-action="Delete" asp-route-id="@item.IdRepairment" class="btn btn-sm btn-outline-danger">Usuń</a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr><td colspan="6" class="text-center py-3 text-muted">Brak zarejestrowanych napraw.</td></tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

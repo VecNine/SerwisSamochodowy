@@ -1,0 +1,43 @@
+@{
+    ViewData["Title"] = "Panel Zarządzania";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Zarządzanie bazą danych</h1>
+    <p>Wybierz tabelę, aby wyświetlić dane, dodać nowe rekordy lub edytować istniejące.</p>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-3">
+        <div class="card shadow-sm">
+            <div class="card-body text-center">
+                <h5 class="card-title">Mechanicy</h5>
+                <a asp-controller="Mechanic" asp-action="Index" class="btn btn-primary">Zarządzaj</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card shadow-sm">
+            <div class="card-body text-center">
+                <h5 class="card-title">Pojazdy</h5>
+                <a asp-controller="Vehicle" asp-action="Index" class="btn btn-primary">Zarządzaj</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card shadow-sm">
+            <div class="card-body text-center">
+                <h5 class="card-title">Części</h5>
+                <a asp-controller="Parts" asp-action="Index" class="btn btn-primary">Zarządzaj</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card shadow-sm">
+            <div class="card-body text-center">
+                <h5 class="card-title">Naprawy</h5>
+                <a asp-controller="Repairment" asp-action="Index" class="btn btn-primary">Zarządzaj</a>
+            </div>
+        </div>
+    </div>
+</div>
