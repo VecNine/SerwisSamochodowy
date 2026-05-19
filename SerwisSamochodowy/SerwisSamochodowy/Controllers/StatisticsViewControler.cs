@@ -64,7 +64,7 @@ public class StatisticsController : Controller
                 VehicleModel = v.Model, RepairCount = g.Count(),
                 TotalSpent = g.Sum(r => r.ServicePrice + r.RepairmentParts.Sum(rp => rp.Part.Cost * rp.Quantity))
             };
-        }).OrderByDescending(x => x.RepairCount).Take(10).ToList();
+        }).OrderByDescending(x => x.RepairCount).Take(3).ToList();
 
         return View(model);
     }
